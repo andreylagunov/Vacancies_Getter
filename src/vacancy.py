@@ -1,5 +1,5 @@
+# import json
 from typing import Any
-import json
 
 
 class Vacancy:
@@ -7,6 +7,7 @@ class Vacancy:
     Класс Вакансия.
     Служит для представления вакансии в виде пяти свойств.
     """
+
     __slots__ = ("speciality", "requirements", "salary_str", "salary_dict", "https_path")
     # speciality: str                   # "Python Developer"
     # requirements: str                 # "Python, Git, ..."
@@ -57,10 +58,11 @@ class Vacancy:
 
     @classmethod
     def test__get_salary_str___from_dict(cls, vac: dict) -> str:
+        """Вспомогательный метод для тестирования."""
         return cls.__get_salary_str___from_dict(vac)
 
     @classmethod
-    def __get_salary_dict___from_dict(cls, vac: dict) -> dict:
+    def __get_salary_dict___from_dict(cls, vac: dict) -> dict[str, int | str]:
         """
         Принимает словарь-вакансию (с HeadHunter)
         Возвращает атрибут salary_dict вида {"from": 100_000, "to": 140_000, "currency": "RUR"} для объекта Vacancy
@@ -81,6 +83,7 @@ class Vacancy:
 
     @classmethod
     def test__get_salary_dict___from_dict(cls, vac: dict) -> dict:
+        """Вспомогательный метод для тестирования."""
         return cls.__get_salary_dict___from_dict(vac)
 
     @classmethod
@@ -102,23 +105,30 @@ class Vacancy:
 
             # Из словаря vac создаём объект Vacancy:
             # Vacancy(speciality, requirements, salary_str, salary_dict, https_path)
-            objects_list.append(Vacancy(vac["name"], vac["snippet"]["requirement"], salary_str, salary_dict, vac["url"]))
+            objects_list.append(
+                Vacancy(vac["name"], vac["snippet"]["requirement"], salary_str, salary_dict, vac["url"])
+            )
 
         return objects_list
 
-
     # Методы валидации данных при инициализации объекта Vacancy:
     def __is_speciality_valid(self, value: Any) -> bool:
+        """Проверка типа для атрибута speciality."""
+
         if type(value) is str:
             return True
         raise TypeError("При проверке атрибута speciality: Не тип str.")
 
     def __is_requirements_valid(self, value: Any) -> bool:
+        """Проверка типа для атрибута requirements."""
+
         if type(value) is str:
             return True
         raise TypeError("При проверке атрибута requirements: Не тип str.")
 
     def __is_salary_dict_valid(self, salary_dict: Any) -> bool:
+        """Проверка типа для атрибута salary_dict."""
+
         if type(salary_dict) is dict:
             if "from" in salary_dict and "to" in salary_dict and "currency" in salary_dict:
 
@@ -132,16 +142,24 @@ class Vacancy:
         raise TypeError("При проверке атрибута salary_dict: Не тип dict[str, int].")
 
     def __is_salary_str_valid(self, value: Any) -> bool:
+        """Проверка типа для атрибута salary_str."""
+
         if type(value) is str:
             return True
         raise TypeError("При проверке атрибута salary_str: Не тип str.")
 
     def __is_https_path_valid(self, value: Any) -> bool:
+        """Проверка типа для атрибута https_path."""
+
         if type(value) is str:
             return True
         raise TypeError("При проверке атрибута https_path: Не тип str.")
 
-    def __init__(self, speciality: str, requirements: str, salary_str: str, salary_dict: dict[str, int], https_path: str) -> None:
+    def __init__(
+        self, speciality: str, requirements: str, salary_str: str, salary_dict: dict[str, int | str], https_path: str
+    ):
+        """Конструктор экземпляра класса Vacancy"""
+
         if self.__is_speciality_valid(speciality):
             self.speciality = speciality
         if self.__is_requirements_valid(requirements):
@@ -153,13 +171,16 @@ class Vacancy:
         if self.__is_https_path_valid(https_path):
             self.https_path = https_path
 
+    def __avrg_salaries(self, other) -> tuple[float]:
+        """
+        Общий метод для сравнения зарплат по их среднему значению.
+        Возвращает средние ЗП двух объектов.
+        """
 
-    # Общий метод для сравнения зарплат по их среднему значению.
-    def __avrg_salaries(self, other) -> tuple:
         if self.__class__ is other.__class__:
 
             # Среднюю ЗП формируем исходя их указанной "зарплатной вилки",
-            # если "вилка От т До" не указана, в среднюю ЗП пишем то, что указано.
+            # если "вилка От и До" не указана, в среднюю ЗП пишем то, что указано.
 
             self_from = self.salary_dict["from"]
             self_to = self.salary_dict["to"]
@@ -184,70 +205,84 @@ class Vacancy:
         raise TypeError("Попытка сравнения зарплат у объектов различных типов.")
 
     # Методы сравнения зарплат:
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
+        """Метод сравнения зарплат: равны ли."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary == other_avrg_salary
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
+        """Метод сравнения зарплат: неравны ли."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary != other_avrg_salary
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
+        """Метод сравнения зарплат: меньше ли."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary < other_avrg_salary
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> bool:
+        """Метод сравнения зарплат: больше ли."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary > other_avrg_salary
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> bool:
+        """Метод сравнения зарплат: равны ли или больше."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary >= other_avrg_salary
 
-    def __le__(self, other):
+    def __le__(self, other) -> bool:
+        """Метод сравнения зарплат: равны ли или меньше."""
+
         self_avrg_salary, other_avrg_salary = self.__avrg_salaries(other)
         return self_avrg_salary <= other_avrg_salary
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Метод вывода информации (атрибутов экземпляра) для пользователя."""
+
         return f"{self.speciality}, {self.https_path}, {self.salary_str}, {self.requirements}"
 
 
 # if __name__ == "__main__":
 
-    # with open("../data/vacancies_example.json", "r", encoding="utf-8") as file:
-    #     json_data = json.load(file)
-    #
-    # print("type(json_data)", type(json_data))
-    # print("len(json_data)", len(json_data))
-    #
-    # print("type(json_data[1])", type(json_data[1]))
+# with open("../data/vacancies_example.json", "r", encoding="utf-8") as file:
+#     json_data = json.load(file)
+#
+# print("type(json_data)", type(json_data))
+# print("len(json_data)", len(json_data))
+#
+# print("type(json_data[1])", type(json_data[1]))
 
 
-    # vac_1 = Vacancy("C++", "cmake", "От 50000 до 200000", {"from": 40000, "to": 25000, "currency": "RUR"}, "www")
-    # vac_2 = Vacancy("I am", "You are", "3 - 4", {"from": 30000, "to": 35000, "currency": "RUR"}, "www")
-    # #
-    # try:
-    #     vac_3 = Vacancy("I am", "You are", "5 - 6", {"from": "10005", "to": 20002, "currency": "RUR"}, "www")
-    # except TypeError as exc_info:
-    #     # print(exc_info)
-    #     # print("type(exc_info):  ", type(exc_info))
-    #     assert str(exc_info) == "При проверке атрибута salary_dict: Не тип dict[str, int]."
-    #
-    # try:
-    #     vac_4 = Vacancy("I am", "You are", "7 - 8", {"f": 10005, "to": 20002, "currency": "RUR"}, "www")
-    # except TypeError as exc_info:
-    #     assert str(exc_info) == "При проверке атрибута salary_dict: Не тип dict[str, int]."
-    # #
-    # print("Равны ли средние ЗП:", vac_1 == vac_2)
-    # print("Неравны ли средние ЗП:", vac_1 != vac_2)
-    #
-    # print("Меньше ли у vac_1:", vac_1 < vac_2)
-    # print("Больше ли у vac_1:", vac_1 > vac_2)
-    #
-    # print("vac_1 <= vac_2:", vac_1 <= vac_2)
-    # print("vac_1 >= vac_2:", vac_1 >= vac_2)
-    #
-    # try:
-    #     print(vac_1 == 2)
-    # except TypeError:
-    #     print("Несравнимые вещи")
+# vac_1 = Vacancy("C++", "cmake", "От 50000 до 200000", {"from": 40000, "to": 25000, "currency": "RUR"}, "www")
+# vac_2 = Vacancy("I am", "You are", "3 - 4", {"from": 30000, "to": 35000, "currency": "RUR"}, "www")
+# #
+# try:
+#     vac_3 = Vacancy("I am", "You are", "5 - 6", {"from": "10005", "to": 20002, "currency": "RUR"}, "www")
+# except TypeError as exc_info:
+#     # print(exc_info)
+#     # print("type(exc_info):  ", type(exc_info))
+#     assert str(exc_info) == "При проверке атрибута salary_dict: Не тип dict[str, int]."
+#
+# try:
+#     vac_4 = Vacancy("I am", "You are", "7 - 8", {"f": 10005, "to": 20002, "currency": "RUR"}, "www")
+# except TypeError as exc_info:
+#     assert str(exc_info) == "При проверке атрибута salary_dict: Не тип dict[str, int]."
+# #
+# print("Равны ли средние ЗП:", vac_1 == vac_2)
+# print("Неравны ли средние ЗП:", vac_1 != vac_2)
+#
+# print("Меньше ли у vac_1:", vac_1 < vac_2)
+# print("Больше ли у vac_1:", vac_1 > vac_2)
+#
+# print("vac_1 <= vac_2:", vac_1 <= vac_2)
+# print("vac_1 >= vac_2:", vac_1 >= vac_2)
+#
+# try:
+#     print(vac_1 == 2)
+# except TypeError:
+#     print("Несравнимые вещи")
