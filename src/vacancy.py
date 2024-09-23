@@ -1,6 +1,7 @@
 from typing import Any
 import json
 
+
 class Vacancy:
     """
     Класс Вакансия.
