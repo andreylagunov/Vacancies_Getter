@@ -88,24 +88,24 @@ class HeadHunterAPI(ConnectionByAPI):
             self.__params["page"] = 0
 
 
-if __name__ == "__main__":
-    hh_handler: HeadHunterAPI = HeadHunterAPI()
-    # print(hh_obj.__class__)
-    # hh_handler.is_connection_good()
+# if __name__ == "__main__":
+#     hh_handler: HeadHunterAPI = HeadHunterAPI()
+# print(hh_obj.__class__)
+# hh_handler.is_connection_good()
 
-    # hh_handler.get_vacancies_data("Python", 8)
-    # print("len(hh_handler.vacancies):  ", len(hh_handler.vacancies))
-    # print("type(hh_handler.vacancies):  ", type(hh_handler.vacancies))
-    # print("type(hh_handler.vacancies[1]):  ", type(hh_handler.vacancies[1]))
-    # for vac in hh_handler.vacancies:
-    #     print(vac)
+# hh_handler.get_vacancies_data("Python", 8)
+# print("len(hh_handler.vacancies):  ", len(hh_handler.vacancies))
+# print("type(hh_handler.vacancies):  ", type(hh_handler.vacancies))
+# print("type(hh_handler.vacancies[1]):  ", type(hh_handler.vacancies[1]))
+# for vac in hh_handler.vacancies:
+#     print(vac)
 
-    # print("=" * 50)
-    #
-    # vac_list = hh_obj.get_vacancies("Python")
-    # for vac in vac_list:
-    #     print(vac)
+# print("=" * 50)
+#
+# vac_list = hh_obj.get_vacancies("Python")
+# for vac in vac_list:
+#     print(vac)
 
-    # vac_obj_list: list[Vacancy] = Vacancy.cast_to___objects_list(hh_handler.vacancies)
-    # for vac in vac_obj_list:
-    #     print(vac)
+# vac_obj_list: list[Vacancy] = Vacancy.cast_to___objects_list(hh_handler.vacancies)
+# for vac in vac_obj_list:
+#     print(vac)

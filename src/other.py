@@ -1,7 +1,8 @@
+# from pprint import pprint
+
 from src.api import HeadHunterAPI
-from src.vacancy import Vacancy
 from src.file import JSONHandler
-from pprint import pprint
+from src.vacancy import Vacancy
 
 
 def user_interaction() -> None:
@@ -83,7 +84,7 @@ def final_save_vacancies_to_file(vacancies_obj_list: list[Vacancy]) -> None:
     """
     while True:
         print(f"\nВакансий в 'топе': {len(vacancies_obj_list)}")
-        user_answer: str = input(f"Сохраняем их в файл? (да/нет):   ")
+        user_answer: str = input("Сохраняем их в файл? (да/нет):   ")
 
         if user_answer.isalpha() and user_answer.lower() == "да":
             file_name: str = input("Укажите имя файла (можно не указывать, тогда используется имя по умолчанию):  ")
@@ -104,8 +105,9 @@ def final_save_vacancies_to_file(vacancies_obj_list: list[Vacancy]) -> None:
         else:
             print("\nТребуется повторное подтверждение.")
 
+
 def print_vacancies(vacancies_obj_list: list[Vacancy]) -> None:
-# def return_vacancies_for_print(vacancies_obj_list: list[Vacancy]) -> list[Vacancy]:
+    # def return_vacancies_for_print(vacancies_obj_list: list[Vacancy]) -> list[Vacancy]:
     """
     Принимает список объектов типа Vacancy,
     Выводит в консоль объекты-вакансии в виде:
@@ -122,7 +124,6 @@ def print_vacancies(vacancies_obj_list: list[Vacancy]) -> None:
             req_str = req_str.replace(str_for_del, "")
 
         print(f"{vac_obj.speciality}.   {vac_obj.https_path}   {vac_obj.salary_str}.   {req_str}")
-
 
 
 def get_top_vacancies(vacancies_obj_list: list[Vacancy], top_n: int) -> list[Vacancy]:
@@ -221,7 +222,6 @@ def filter_vacancies(vacancies_obj_list: list[Vacancy], filter_words: list[str])
     return filtered_vacancies
 
 
-
 def get_salary_range_from_user(currency: str = "RUR", is_in_test: bool = False) -> dict[str, int | str]:
     """
     Запрашивает у пользователя диапазон зарплат,
@@ -255,7 +255,7 @@ def get_salary_range_from_user(currency: str = "RUR", is_in_test: bool = False) 
 
         while True:
             print(f"\nВы указали диапазон зарплат: {salary_from} - {salary_to} {currency}")
-            user_answer: str = input(f"Продолжаем с ним? (да/нет):   ")
+            user_answer: str = input("Продолжаем с ним? (да/нет):   ")
 
             if user_answer.isalpha() and user_answer.lower() == "да":
                 return {"from": salary_from, "to": salary_to, "currency": currency}
@@ -270,15 +270,15 @@ def get_salary_range_from_user(currency: str = "RUR", is_in_test: bool = False) 
 #     vac_2 = Vacancy("sp2", "req2", "s2", {"from": 2, "to": 20, "currency": "RUR"}, "https2")
 #
 #     final_save_vacancies_to_file([vac_1, vac_2])
-    # range_dict: dict = get_salary_range_from_user()
+# range_dict: dict = get_salary_range_from_user()
 
-    # Получаем список вакансий с hh.
-    # hh_handler: HeadHunterAPI = HeadHunterAPI()
-    # hh_handler.get_vacancies_data("Python", 40, 1)
-    # pprint(hh_handler.vacancies)
+# Получаем список вакансий с hh.
+# hh_handler: HeadHunterAPI = HeadHunterAPI()
+# hh_handler.get_vacancies_data("Python", 40, 1)
+# pprint(hh_handler.vacancies)
 
-    # vac_obj_list: list[Vacancy] = Vacancy.cast_to___objects_list(hh_handler.vacancies)
-    # pprint(vac_obj_list)
+# vac_obj_list: list[Vacancy] = Vacancy.cast_to___objects_list(hh_handler.vacancies)
+# pprint(vac_obj_list)
 
-    # for vac in vac_obj_list:
-    #     print(vac.speciality, vac.https_path, vac.salary_str, vac.requirements)
+# for vac in vac_obj_list:
+#     print(vac.speciality, vac.https_path, vac.salary_str, vac.requirements)

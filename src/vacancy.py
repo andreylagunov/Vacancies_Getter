@@ -117,9 +117,7 @@ class Vacancy:
 
             # Из словаря vac создаём объект Vacancy:
             # Vacancy(speciality, requirements, salary_str, salary_dict, https_path)
-            objects_list.append(
-                Vacancy(speciality_str, requirement_str, salary_str, salary_dict, path_value_str)
-            )
+            objects_list.append(Vacancy(speciality_str, requirement_str, salary_str, salary_dict, path_value_str))
 
         return objects_list
 
