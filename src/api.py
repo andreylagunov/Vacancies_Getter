@@ -36,7 +36,7 @@ class HeadHunterAPI(ConnectionByAPI):
     __url: str
     __headers: dict[str, str]
     __params: dict[str, str | int]
-    __vacancies: list[dict]
+    vacancies: list[dict]
 
     def __init__(self):
         """Конструктор экземпляра обработчика запросов к hh."""
@@ -44,12 +44,12 @@ class HeadHunterAPI(ConnectionByAPI):
         self.__url = "https://api.hh.ru/vacancies"
         self.__headers = {"User-Agent": "HH-User-Agent"}
         self.__params = {"text": "", "page": 0, "per_page": 10}
-        self.__vacancies = []
+        self.vacancies = []
 
     def get_dict_of_attributes(self) -> dict[str, str | dict | list]:
         """Служит для доступа на чтение к атрибутам экземпляра."""
 
-        return {"url": self.__url, "headers": self.__headers, "params": self.__params, "vacancies": self.__vacancies}
+        return {"url": self.__url, "headers": self.__headers, "params": self.__params, "vacancies": self.vacancies}
 
     def __check_connection(self) -> bool:
         """Отправляет запрос на базовый URL. Проверяет ответ."""
@@ -75,7 +75,7 @@ class HeadHunterAPI(ConnectionByAPI):
         Отправляет запрос для получения данных о вакансиях по ключ.слову.
         """
         # На каждый вызов функции - очистка списка вакансий.
-        self.__vacancies = []
+        self.vacancies = []
 
         self.__params["text"] = keyword
         self.__params["per_page"] = per_page
@@ -83,7 +83,7 @@ class HeadHunterAPI(ConnectionByAPI):
             while self.__params.get("page") != to_page:
                 response = requests.get(self.__url, headers=self.__headers, params=self.__params)
                 vacancies = response.json()["items"]
-                self.__vacancies.extend(vacancies)
+                self.vacancies.extend(vacancies)
                 self.__params["page"] += 1
             self.__params["page"] = 0
 

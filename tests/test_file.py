@@ -7,11 +7,11 @@ def test__init__with_default_file_name():
     json_handler: JSONHandler = JSONHandler()
     test_dict = json_handler.get_dict_of_attributes()
 
-    assert test_dict["file_name"] == "saved_vacancies.json"
+    assert test_dict["file_name"] == "default_vacancies_file.json"
 
     # directory = os.getcwd().split("/")[-1]
     # if directory == "VacanciesGetter":
-    assert test_dict["relative_file_path"] == "./data/saved_vacancies.json"
+    assert test_dict["relative_file_path"] == "./data/default_vacancies_file.json"
     # else:
     #     assert test_dict["relative_file_path"] == "../data/saved_vacancies.json"
 

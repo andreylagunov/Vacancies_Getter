@@ -41,16 +41,25 @@ class JSONHandler(FileHandler):
     __file_name: str
     __relative_file_path: str
 
-    def __init__(self, file_name: str = "saved_vacancies.json"):
+    def __init__(self, file_name: str = "default_vacancies_file.json"):
         """
         В экземпляре есть атрибут - имя файла,
         которое может быть назначено при создании экземпляра.
         """
         self.__file_name = file_name
-        if __name__ == "__main__":
-            self.__relative_file_path = f"../data/{file_name}"
-        else:
+
+        directory = os.getcwd().split("/")[-1]
+        # print("При создании экземпляра JSONHandler, directory:   ", directory)
+        if directory == "VacanciesGetter":
             self.__relative_file_path = f"./data/{file_name}"
+        elif directory == "src":
+            self.__relative_file_path = f"../data/{file_name}"
+
+        # self.__file_name = file_name
+        # if __name__ == "__main__":
+        #     self.__relative_file_path = f"../data/{file_name}"
+        # else:
+        #     self.__relative_file_path = f"./data/{file_name}"
 
     def get_dict_of_attributes(self) -> dict[str, str]:
         """Возвращает словарь со значениями атрибутов экземпляра."""

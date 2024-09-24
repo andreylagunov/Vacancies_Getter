@@ -103,10 +103,22 @@ class Vacancy:
             # Формирование атрибута salary_str для объекта Vacancy
             salary_str = cls.__get_salary_str___from_dict(vac)
 
+            # Формирование атрибута requirement для объекта Vacancy
+            req_value: str | None = vac["snippet"]["requirement"]
+            requirement_str: str = req_value if type(req_value) is str else "Требования не указаны."
+
+            # Формирование атрибута speciality для объекта Vacancy
+            spec_value: str | None = vac["name"]
+            speciality_str: str = spec_value if type(spec_value) is str else "Специальность не указана."
+
+            # Формирование атрибута https_path для объекта Vacancy
+            path_value: str | None = vac["url"]
+            path_value_str: str = path_value if type(path_value) is str else "URL не указан."
+
             # Из словаря vac создаём объект Vacancy:
             # Vacancy(speciality, requirements, salary_str, salary_dict, https_path)
             objects_list.append(
-                Vacancy(vac["name"], vac["snippet"]["requirement"], salary_str, salary_dict, vac["url"])
+                Vacancy(speciality_str, requirement_str, salary_str, salary_dict, path_value_str)
             )
 
         return objects_list
