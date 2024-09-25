@@ -1,6 +1,6 @@
 from src.file import JSONHandler
 from src.vacancy import Vacancy
-# import os
+import os
 
 
 def test__init__with_default_file_name():
@@ -11,7 +11,11 @@ def test__init__with_default_file_name():
 
     # directory = os.getcwd().split("/")[-1]
     # if directory == "VacanciesGetter":
-    assert test_dict["relative_file_path"] == "./data/default_vacancies_file.json"
+    if os.name == "posix":
+        assert test_dict["relative_file_path"] == "./data/default_vacancies_file.json"
+    elif os.name == "nt":
+        assert test_dict["relative_file_path"] == ".\\data\\default_vacancies_file.json"
+
     # else:
     #     assert test_dict["relative_file_path"] == "../data/saved_vacancies.json"
 
@@ -21,7 +25,12 @@ def test__init__with_user_file_name():
     test_dict = json_handler.get_dict_of_attributes()
 
     assert test_dict["file_name"] == "user_file_name.json"
-    assert test_dict["relative_file_path"] == "./data/user_file_name.json"
+    # assert test_dict["relative_file_path"] == "./data/user_file_name.json"
+
+    if os.name == "posix":
+        assert test_dict["relative_file_path"] == "./data/user_file_name.json"
+    elif os.name == "nt":
+        assert test_dict["relative_file_path"] == ".\\data\\user_file_name.json"
 
 
 def test_get_dict_of_attributes():

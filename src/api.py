@@ -8,11 +8,6 @@ class ConnectionByAPI(ABC):
     """Абстрактный класс для класса подключения к HeadHunter API"""
 
     @abstractmethod
-    def __init__(self):
-        """Конструктор экземпляра обработчика запросов к hh."""
-        pass
-
-    @abstractmethod
     def is_connection_good(self) -> bool:
         """
         Обёртка над приватным методом подключения к API hh.

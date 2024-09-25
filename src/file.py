@@ -48,12 +48,25 @@ class JSONHandler(FileHandler):
         """
         self.__file_name = file_name
 
-        directory = os.getcwd().split("/")[-1]
-        # print("При создании экземпляра JSONHandler, directory:   ", directory)
-        if directory == "VacanciesGetter":
-            self.__relative_file_path = f"./data/{file_name}"
-        elif directory == "src":
-            self.__relative_file_path = f"../data/{file_name}"
+        current_directory_path: str = os.getcwd()
+        head, tail_directory = os.path.split(current_directory_path)
+
+        # if os.name == "posix":
+        separator: str = "/"
+        if os.name == "nt":
+            separator = "\\"
+
+        if tail_directory == "VacanciesGetter":
+            self.__relative_file_path = f".{separator}data{separator}{file_name}"
+        elif tail_directory == "src":
+            self.__relative_file_path = f"..{separator}data{separator}{file_name}"
+
+        # directory = os.getcwd().split("/")[-1]
+        # # print("При создании экземпляра JSONHandler, directory:   ", directory)
+        # if directory == "VacanciesGetter":
+        #     self.__relative_file_path = f"./data/{file_name}"
+        # elif directory == "src":
+        #     self.__relative_file_path = f"../data/{file_name}"
 
         # self.__file_name = file_name
         # if __name__ == "__main__":
@@ -132,6 +145,11 @@ class JSONHandler(FileHandler):
 
 
 # if __name__ == "__main__":
+#     cwd = os.getcwd()
+#     head, tail = os.path.split(cwd)
+#     print(head)
+#     print(tail)
+
 #     vac_1 = Vacancy("C++", "cmake", "От 50000 до 200000", {"from": 40000, "to": 25000, "currency": "RUR"}, "www")
 #     vac_2 = Vacancy("I am", "You are", "3 - 4", {"from": 30000, "to": 35000, "currency": "RUR"}, "www")
 #     vac_3 = Vacancy("Rust", "all", "От 3000 руб", {"from": 3000, "to": 0, "currency": "RUR"}, "www")
